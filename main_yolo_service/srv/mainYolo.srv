@@ -1,0 +1,11 @@
+# 请求部分
+bool is_detect_start
+---
+# 响应部分
+bool is_pingpang_detected
+string[] pingpang_class
+float32[] pingpang_center_t
+float32[] pingpang_center_x
+float32[] pingpang_center_y
+float32[] pingpang_center_z
+
