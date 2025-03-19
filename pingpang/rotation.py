@@ -2,6 +2,7 @@ import pyrealsense2 as rs
 import numpy as np
 import cv2
 import json
+import datetime
 
 def get_aligned_images():
     frames = pipeline.wait_for_frames()  # 等待获取图像帧，获取颜色和深度的框架集
@@ -48,6 +49,7 @@ if __name__ == "__main__":
     align_to = rs.stream.color  # align_to 是计划对齐深度帧的流类型
     align = rs.align(align_to)  # rs.align 执行深度帧与其他帧的对齐
     print("start")
+    now0=datetime.datetime.now()
     pipe_profile = pipeline.start(config)  # streaming流开始
     while True:
         color_intrin, depth_intrin, img, img_depth, aligned_depth_frame = (
@@ -83,6 +85,10 @@ if __name__ == "__main__":
             sum=sum+1
             rvec_matrix_sum=rvec_matrix_sum+rvec_matrix
         cv2.imshow('findCorners', img)
+        now1=datetime.datetime.now()
+        time=now1-now0
+        if time> datetime.timedelta(seconds=30):
+            break
         if cv2.waitKey(1) & 0xFF == 27:
             break
     # 停止流
