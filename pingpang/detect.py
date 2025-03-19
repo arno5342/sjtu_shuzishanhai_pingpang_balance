@@ -41,7 +41,7 @@ if __name__ == "__main__":
     filename = (
         datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S").replace(":", "_") + ".txt"
     )#创建文件
-    model = YOLO("pingpang.pt")
+    ov_model = YOLO(".\pingpang_openvino_model")
     BALL_RADIUS = 0.02  # 球半径，单位m
     z_=0.04
     x_=0.48
@@ -60,13 +60,13 @@ if __name__ == "__main__":
             color_intrin, depth_intrin, img_color, img_depth, aligned_depth_frame = (
                         get_aligned_images()
                     )
-            results = model(img_color)
+            results = ov_model(img_color)
             if len(results[0].boxes)>0:
                 result = results[0].boxes[0] # 访问检测结果
                 x1, y1, x2, y2 = result.xyxy[0]
                 confidence = result.conf[0]
                 cls = result.cls[0]
-                label = model.names[int(cls)]
+                label = ov_model.names[int(cls)]
 
                 # 计算中心点
 
